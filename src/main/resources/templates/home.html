@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -121,22 +121,42 @@
     <div class="search-bar">
         <input type="text" placeholder="搜索商品...">
     </div>
+
+    <!-- 只改 user-info 部分，替换成下面这段 -->
+
     <div class="user-info">
+        <!-- 没登录，显示登录注册 -->
+        <span th:if="${session.user == null}">
         <a href="/login">登录</a>
         <a href="/register">注册</a>
-        <a href="/admin/products" style="color: #ffcc00; margin-left: 20px; font-weight: bold;">后台管理</a>
+    </span>
+
+        <!-- 登录了，显示欢迎和退出 -->
+        <span th:if="${session.user != null}">
+        欢迎，<span th:text="${session.user.username}">用户名</span>
+        <a href="/logout" style="margin-left: 15px;">退出登录</a>
+
+            <!-- 只有管理员显示后台管理 -->
+        <a th:if="${session.user.role == 'ADMIN'}"
+           href="/admin/products"
+           style="color: #ffcc00; margin-left: 20px; font-weight: bold;">
+           后台管理
+        </a>
+    </span>
     </div>
+
+
     <div class="cart">
         <a href="/cart">购物车</a>
     </div>
 </div>
-
 
 <!-- 主横幅区域 -->
 <div class="banner">
     欢迎来到我们的电商平台！
 </div>
 
+<!-- 商品分类导航 -->
 <!-- 商品分类导航 -->
 <div class="categories">
     <div class="category">
@@ -179,7 +199,6 @@
                     </a>
                 `;
 
-                    // 防止XSS，改用textContent设置文字
                     productDiv.querySelector(".name").textContent = p.name;
                     productDiv.querySelector(".price").textContent = `￥${p.price.toFixed(2)}`;
 
