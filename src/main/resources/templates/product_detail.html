@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <title>商品详情</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .product-container { max-width: 600px; margin: auto; }
+        .product-image { width: 100%; height: auto; border-radius: 8px; }
+        .product-name { font-size: 28px; margin-top: 20px; }
+        .product-price { font-size: 24px; color: #e74c3c; margin-top: 10px; }
+        .add-cart-btn {
+            margin-top: 20px;
+            padding: 12px 30px;
+            background-color: #3498db;
+            color: white;
+            font-size: 18px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .add-cart-btn:hover { background-color: #2980b9; }
+    </style>
+</head>
+<body>
+<div class="product-container">
+    <img class="product-image" src="${product.imageUrl}" alt="${product.name}" />
+    <div class="product-name">${product.name}</div>
+    <div class="product-price">￥${product.price}</div>
+    <button class="add-cart-btn" onclick="alert('加入购物车功能稍后实现！')">加入购物车</button>
+</div>
+</body>
+</html>

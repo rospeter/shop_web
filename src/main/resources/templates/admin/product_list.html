@@ -1,0 +1,79 @@
+<!-- templates/admin/product_list.html -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <title>后台商品管理 - 列表</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #2c3e50;
+            color: white;
+        }
+        a {
+            text-decoration: none;
+            color: #3498db;
+            margin-right: 10px;
+        }
+        a:hover { text-decoration: underline; }
+        button {
+            padding: 5px 10px;
+            background-color: #e74c3c;
+            border: none;
+            color: white;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        button:hover { background-color: #c0392b; }
+    </style>
+</head>
+<body>
+
+<!-- 引入导航栏 -->
+<div th:replace="admin/admin_header :: header"></div>
+
+<h1>商品管理列表</h1>
+
+<a href="/admin/product/new">➕ 新增商品</a>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>名称</th>
+        <th>价格</th>
+        <th>图片地址</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product : ${products}">
+        <td th:text="${product.id}">1</td>
+        <td th:text="${product.name}">商品名</td>
+        <td th:text="${product.price}">100</td>
+        <td th:text="${product.imageUrl}">http://xxx</td>
+        <td>
+            <a th:href="@{/admin/product/edit/{id}(id=${product.id})}">编辑</a>
+            <form th:action="@{/admin/product/delete}" method="post" style="display:inline;">
+                <input type="hidden" name="id" th:value="${product.id}" />
+                <button type="submit" onclick="return confirm('确定删除该商品吗？')">删除</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<a href="/home">🏠 返回首页</a>
+
+</body>
+</html>

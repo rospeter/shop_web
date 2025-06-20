@@ -1,0 +1,56 @@
+<!-- templates/admin/product_form.html -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>商品表单</title>
+  <style>
+    body { font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px; }
+    form div { margin-bottom: 15px; }
+    label { font-weight: bold; display: block; margin-bottom: 5px; }
+    input[type="text"], input[type="number"] {
+      width: 300px;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #18bc9c;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover { background-color: #14927e; }
+    a { display: inline-block; margin-top: 20px; color: #3498db; text-decoration: none; }
+  </style>
+</head>
+<body>
+
+<!-- 引入导航栏 -->
+<div th:replace="admin/admin_header :: header"></div>
+
+<h1 th:text="${product.id == null} ? '新增商品' : '编辑商品'"></h1>
+
+<form th:action="@{/admin/product/save}" method="post">
+  <input type="hidden" name="id" th:value="${product.id}" />
+  <div>
+    <label>名称：</label>
+    <input type="text" name="name" th:value="${product.name}" required />
+  </div>
+  <div>
+    <label>价格：</label>
+    <input type="number" step="0.01" name="price" th:value="${product.price}" required />
+  </div>
+  <div>
+    <label>图片地址：</label>
+    <input type="text" name="imageUrl" th:value="${product.imageUrl}" />
+  </div>
+  <button type="submit">保存</button>
+</form>
+
+<a href="/admin/products">返回列表</a>
+
+</body>
+</html>

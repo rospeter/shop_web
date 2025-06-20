@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>商品列表</title>
+</head>
+<body>
+<h2>商品列表</h2>
+<table border="1">
+    <tr>
+        <th>名称</th>
+        <th>描述</th>
+        <th>价格</th>
+    </tr>
+    <tr th:each="product : ${products}">
+        <td th:text="${product.name}">商品名</td>
+        <td th:text="${product.description}">描述</td>
+        <td th:text="${product.price}">价格</td>
+    </tr>
+</table>
+</body>
+</html>
