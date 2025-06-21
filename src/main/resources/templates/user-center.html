@@ -1,0 +1,53 @@
+<!-- 文件：src/main/resources/templates/user-center.html -->
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>用户中心</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      padding: 40px;
+    }
+    .box {
+      background: #fff;
+      padding: 30px;
+      max-width: 600px;
+      margin: 0 auto;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    p {
+      font-size: 18px;
+      margin: 10px 0;
+    }
+    a.button {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #3498db;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: background-color 0.2s ease;
+    }
+    a.button:hover {
+      background-color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+<div class="box">
+  <h2>欢迎进入用户中心</h2>
+  <p>用户名：<span th:text="${user.username}">张三</span></p>
+  <p>用户ID：<span th:text="${user.id}">1</span></p>
+
+  <a href="/user/orders" class="button">查看我的订单</a>
+</div>
+</body>
+</html>

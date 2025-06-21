@@ -18,6 +18,15 @@
       margin: 20px 0;
     }
     h2 { margin-bottom: 20px; }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -25,11 +34,20 @@
   <h2>请使用微信/支付宝扫码支付</h2>
   <img src="https://via.placeholder.com/200x200.png?text=扫码支付" alt="支付二维码" />
   <p>订单号：<span id="order-id">加载中...</span></p>
+
+  <!-- 模拟“我已支付”按钮 -->
+  <form id="payForm" method="post">
+    <button type="submit">我已支付</button>
+  </form>
 </div>
 
 <script>
   const orderId = new URLSearchParams(window.location.search).get("orderId");
   document.getElementById("order-id").innerText = orderId;
+
+  // 动态设置表单提交路径
+  const form = document.getElementById("payForm");
+  form.action = `/order/confirm/${orderId}`;
 </script>
 </body>
 </html>

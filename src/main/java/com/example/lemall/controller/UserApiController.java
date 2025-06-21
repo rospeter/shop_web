@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-public class UserController {
+public class UserApiController {  // 注意这里改了名字
 
     @Autowired
     private UserRepository userRepository;

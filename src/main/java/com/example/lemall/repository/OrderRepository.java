@@ -2,7 +2,10 @@ package com.example.lemall.repository;
 
 import com.example.lemall.entity.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
-    // 你可以根据需要添加查询方法，比如查某用户的订单等
+
+    // 加上这个方法用于查找当前用户的所有订单
+    List<Order> findByUserId(Long userId);
 }

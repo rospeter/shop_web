@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>支付成功</title>
+  <style>
+    body { font-family: Arial; background: #f0fff0; text-align: center; padding: 50px; }
+    .box {
+      background: white;
+      display: inline-block;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 { color: #28a745; }
+    p { font-size: 18px; margin: 10px 0; }
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+<div class="box">
+  <h1>支付成功！</h1>
+  <p>订单编号：[[${order.id}]]</p>
+  <p>支付金额：[[${order.totalPrice}]] 元</p>
+  <p>状态：[[${order.status}]]</p>
+  <a href="/user/orders">查看我的订单</a>
+</div>
+</body>
+</html>

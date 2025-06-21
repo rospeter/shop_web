@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>我的订单</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f8f8f8;
+            padding: 40px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 12px 18px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+<h2>我的订单</h2>
+
+<table>
+    <thead>
+    <tr>
+        <th>订单ID</th>
+        <th>总价</th>
+        <th>状态</th>
+        <th>下单时间</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="order : ${orders}">
+        <td th:text="${order.id}">1</td>
+        <td th:text="'￥' + ${order.totalPrice}">￥123.00</td>
+        <td th:text="${order.status}">已支付</td>
+        <td>--</td>
+
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

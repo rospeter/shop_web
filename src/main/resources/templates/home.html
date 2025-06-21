@@ -125,15 +125,16 @@
     <!-- 只改 user-info 部分，替换成下面这段 -->
 
     <div class="user-info">
-        <!-- 没登录，显示登录注册 -->
+        <!-- 未登录：显示 登录 注册 -->
         <span th:if="${session.user == null}">
         <a href="/login">登录</a>
         <a href="/register">注册</a>
     </span>
 
-        <!-- 登录了，显示欢迎和退出 -->
+        <!-- 已登录：显示 欢迎 + 用户中心 + 退出 -->
         <span th:if="${session.user != null}">
         欢迎，<span th:text="${session.user.username}">用户名</span>
+        <a href="/user/center" style="margin-left: 15px;">用户中心</a>
         <a href="/logout" style="margin-left: 15px;">退出登录</a>
 
             <!-- 只有管理员显示后台管理 -->
@@ -144,6 +145,7 @@
         </a>
     </span>
     </div>
+
 
 
     <div class="cart">
