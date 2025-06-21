@@ -111,7 +111,7 @@
     </div>
     <div>
       <label>价格：</label>
-      <input type="number" name="price" required />
+      <input type="text" th:value="${product.price ?: ''}" />
     </div>
     <div>
       <label>图片地址：</label>

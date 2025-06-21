@@ -14,7 +14,7 @@ public class Product {
     private String name;  // 商品名称
 
     @Column(nullable = false)
-    private double price; // 商品价格
+    private Double price;
 
     @Column(name = "image_url", length = 255)
     private String imageUrl; // 商品图片地址
@@ -36,9 +36,10 @@ public class Product {
         this.name = name;
     }
 
-    public double getPrice() {
-        return price;
+    public Double getPrice() {
+        return price; // 返回包装类就行，Thymeleaf 能处理 null
     }
+
 
     public void setPrice(double price) {
         this.price = price;

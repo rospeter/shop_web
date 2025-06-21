@@ -94,7 +94,8 @@
                     <img th:src="${product.imageUrl != null ? product.imageUrl : '/images/banner.jpg'}" alt="商品图" class="product-image" />
                     <span class="product-name" th:text="${product.name}"></span>
                 </a>
-                <div class="product-price">￥<span th:text="${#numbers.formatDecimal(product.price, 1, 'POINT', 2, 'NONE')}"></span></div>
+                <div class="product-price">￥<span th:text="${product.price}"></span></div>
+
             </div>
         </div>
     </div>

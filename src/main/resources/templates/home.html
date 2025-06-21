@@ -23,7 +23,6 @@
             background-color: #ffffff; /* 纯白 */
         }
 
-
         .banner {
             width: 100%;
             height: 300px;
@@ -46,26 +45,6 @@
             color: #f0f0f0;
         }
 
-        .categories {
-            display: flex;
-            justify-content: space-around;
-            background-color: #fff;
-            padding: 20px 0;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .category {
-            text-align: center;
-            font-size: 18px;
-            color: #333;
-        }
-
-        .category img {
-            width: 50px;
-            height: 50px;
-            margin-bottom: 10px;
-        }
-
         .products {
             display: flex;
             flex-wrap: wrap;
@@ -84,14 +63,6 @@
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
             transition: transform 0.2s ease, border 0.2s ease;
             cursor: pointer;
-        }
-
-        .product:hover {
-            transform: translateY(-2px);
-        }
-
-        .product.selected {
-            border: 1px solid #ff4d4f;
         }
 
         .product img {
@@ -120,6 +91,10 @@
             color: #e74c3c;
         }
 
+        .product.selected {
+            border: 1px solid #ff4d4f;
+        }
+
         .footer {
             background-color: #333;
             color: #fff;
@@ -132,88 +107,29 @@
             text-decoration: none;
             margin: 0 10px;
         }
-    </style>
+</style>
 </head>
 <body>
-
-<!-- 顶部导航栏 -->
-<div th:replace="header :: header"></div>
-
-
-<div class="container">
-    <!-- 主横幅区域 -->
-    <div class="banner">
-        欢迎来到乐买电子购物平台！
-        <div class="subtext">精选商品 每日上新 · 低价好货限时抢购！</div>
-    </div>
-
-    <!-- 商品分类导航 -->
-    <div class="categories">
-        <div class="category">
-            <img alt="分类1" src="https://via.placeholder.com/50">
-            <div>分类1</div>
+    <header th:replace="fragments/header :: header"></header>
+    <div class="container">
+        <div class="banner">
+            <span>欢迎来到我们的电商平台</span>
+            <span class="subtext">精选商品，尽在掌握</span>
         </div>
-        <div class="category">
-            <img alt="分类2" src="https://via.placeholder.com/50">
-            <div>分类2</div>
-        </div>
-        <div class="category">
-            <img alt="分类3" src="https://via.placeholder.com/50">
-            <div>分类3</div>
+        <div class="products">
+            <div class="product" th:each="product : ${products}">
+                <img th:src="@{/images/${product.image}}" alt="Product Image"/>
+                <div class="info">
+                    <span class="name" th:text="${product.name}"></span>
+                    <span class="price" th:text="'￥' + ${product.price}"></span>
+                </div>
+            </div>
         </div>
     </div>
-
-    <!-- 推荐商品区域 -->
-    <div class="products" id="product-list">
-        <!-- 商品将通过 JS 加载 -->
-    </div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            fetch("/api/products")
-                .then(res => res.json())
-                .then(products => {
-                    const container = document.getElementById("product-list");
-                    container.innerHTML = "";
-                    products.forEach(p => {
-                        const productDiv = document.createElement("div");
-                        productDiv.className = "product";
-
-                        productDiv.innerHTML = `
-         <a href="/product/${p.id}" style="text-decoration: none; color: inherit;">
-        <img src="${p.imageUrl || 'https://via.placeholder.com/300x200?text=无图'}" alt="${p.name}">
-        <div class="info">
-            <div class="name">${p.name}</div>
-            <div class="price">￥${p.price.toFixed(2)}</div>
-        </div>
-         </a>
-`;
-
-
-                        productDiv.addEventListener("click", () => {
-                            document.querySelectorAll('.product').forEach(el => el.classList.remove('selected'));
-                            productDiv.classList.add('selected');
-                        });
-
-                        container.appendChild(productDiv);
-                    });
-                })
-                .catch(err => {
-                    console.error("加载商品失败:", err);
-                    document.getElementById("product-list").textContent = "加载商品失败，请稍后重试。";
-                });
-        });
-    </script>
-
-    <!-- 底部信息区 -->
-    <div class="footer">
+    <footer class="footer">
         <a href="#">关于我们</a>
         <a href="#">联系我们</a>
-        <a href="#">隐私政策</a>
-        <a href="#">社交媒体</a>
-    </div>
-</div>
-
-
+        <a href="#">帮助中心</a>
+    </footer>
 </body>
 </html>
