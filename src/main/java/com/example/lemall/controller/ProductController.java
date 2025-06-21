@@ -8,7 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -28,5 +30,19 @@ public class ProductController {
             return "redirect:/home";
         }
     }
+    @GetMapping("/products")
+    public String listProducts(@RequestParam(value = "keyword", required = false) String keyword,
+                               Model model) {
+        List<Product> products;
+        if (keyword == null || keyword.trim().isEmpty()) {
+            products = productRepository.findAll();
+        } else {
+            products = productRepository.findByNameContainingIgnoreCase(keyword.trim());
+        }
+        model.addAttribute("products", products);
+        model.addAttribute("keyword", keyword);
+        return "product_search_list";  // 你显示商品列表的模板名字
+    }
+
 
 }

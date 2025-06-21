@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>商品列表</title>
+    <link rel="stylesheet" th:href="@{/css/header.css}" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding-top: 80px; /* 避免被固定头部遮挡 */
+            background-color: #f5f5f5;
+            margin: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .keyword-info {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #555;
+        }
+        .products-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .product-card {
+            width: 220px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background-color: #fafafa;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            text-align: center;
+            padding: 15px;
+            transition: box-shadow 0.2s ease;
+        }
+        .product-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .product-image {
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        .product-name {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #007aff;
+            text-decoration: none;
+            display: block;
+        }
+        .product-price {
+            font-size: 14px;
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        .no-results {
+            text-align: center;
+            font-size: 18px;
+            color: #999;
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- 头部导航 -->
+<div th:replace="header :: header"></div>
+
+<div class="container">
+    <h2>商品列表</h2>
+
+    <div class="keyword-info" th:if="${keyword != null and !#strings.isEmpty(keyword)}">
+        搜索关键词：<span th:text="${keyword}"></span>
+    </div>
+
+
+    <div th:if="${products != null and #lists.isEmpty(products) == false}">
+        <div class="products-list">
+            <div class="product-card" th:each="product : ${products}">
+                <a th:href="@{'/product/' + ${product.id}}">
+                    <img th:src="${product.imageUrl != null ? product.imageUrl : '/images/banner.jpg'}" alt="商品图" class="product-image" />
+                    <span class="product-name" th:text="${product.name}"></span>
+                </a>
+                <div class="product-price">￥<span th:text="${#numbers.formatDecimal(product.price, 1, 'POINT', 2, 'NONE')}"></span></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="no-results" th:if="${products == null or #lists.isEmpty(products)}">
+        没有找到相关商品~
+    </div>
+</div>
+
+</body>
+</html>

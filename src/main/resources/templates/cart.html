@@ -8,23 +8,34 @@
     body {
       font-family: Arial, sans-serif;
       background-color: #f5f5f5;
-      padding-top: 80px; /* 避免顶部导航栏遮挡 */
+      padding-top: 80px;
       margin: 0;
     }
+
     .container {
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 20px;
     }
+
+    .cart-wrapper {
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
     h2 {
       text-align: center;
       margin-bottom: 30px;
     }
+
     .top-bar {
       display: flex;
       justify-content: space-between;
       margin-bottom: 20px;
     }
+
     .top-bar button {
       background-color: #3498db;
       color: white;
@@ -35,52 +46,62 @@
       cursor: pointer;
       transition: background-color 0.2s ease;
     }
+
     .top-bar button:hover {
       background-color: #2980b9;
     }
+
     table {
       width: 100%;
       border-collapse: collapse;
       background-color: #fff;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
+
     th, td {
       padding: 15px;
       text-align: center;
       border-bottom: 1px solid #ddd;
     }
+
     th {
       background-color: #f0f0f0;
       font-size: 18px;
     }
+
     img {
       width: 80px;
       height: 80px;
       object-fit: cover;
       border-radius: 6px;
     }
+
     .remove-btn {
       color: #e74c3c;
       cursor: pointer;
     }
+
     .total-price {
       text-align: right;
       font-size: 20px;
       margin-top: 20px;
       font-weight: bold;
     }
+
     .empty {
       text-align: center;
       margin-top: 100px;
       font-size: 24px;
       color: #999;
     }
+
     .quantity-control {
       display: flex;
       justify-content: center;
       align-items: center;
       gap: 6px;
     }
+
     .quantity-control button {
       width: 30px;
       height: 30px;
@@ -90,6 +111,7 @@
       cursor: pointer;
       border-radius: 4px;
     }
+
     .quantity-control input {
       width: 50px;
       text-align: center;
@@ -105,24 +127,23 @@
 <!-- 顶部导航栏 -->
 <div th:replace="header :: header"></div>
 
-<!-- 主体内容容器 -->
 <div class="container">
-  <div class="top-bar">
-    <button onclick="clearCart()">🗑 清空购物车</button>
+  <div class="cart-wrapper">
+    <div class="top-bar">
+      <button onclick="clearCart()">🗑 清空购物车</button>
+    </div>
+
+    <h2>🛒 我的购物车</h2>
+
+    <div id="cart-container"></div>
   </div>
-
-  <h2>🛒 我的购物车</h2>
-
-  <div id="cart-container"></div>
 </div>
 
 <script>
-  // 页面加载完成后自动调用
   document.addEventListener("DOMContentLoaded", () => {
     loadCart();
   });
 
-  // 加载购物车数据并渲染
   async function loadCart() {
     const res = await fetch("/api/cart/list");
     if (res.status === 401) {
@@ -192,7 +213,6 @@
     recalculateTotal();
   }
 
-  // 改变数量（+/-按钮）
   async function changeQuantity(productId, delta) {
     const row = document.querySelector(`tr[data-id="${productId}"]`);
     const input = row.querySelector("input");
@@ -203,7 +223,6 @@
     await updateQuantity(productId, quantity, row);
   }
 
-  // 手动输入数量框触发
   async function manualInput(inputElem, productId) {
     let quantity = parseInt(inputElem.value);
     if (isNaN(quantity) || quantity < 1) quantity = 1;
@@ -212,7 +231,6 @@
     await updateQuantity(productId, quantity, row);
   }
 
-  // 向后端更新数量
   async function updateQuantity(productId, quantity, row) {
     const priceText = row.querySelector(".price").innerText.replace("￥", "");
     const subtotalCell = row.querySelector(".subtotal");
@@ -238,7 +256,6 @@
     recalculateTotal();
   }
 
-  // 重新计算总价
   function recalculateTotal() {
     let total = 0;
     document.querySelectorAll(".subtotal").forEach(cell => {
@@ -247,7 +264,6 @@
     document.getElementById("total-price").innerText = "总价：￥" + total.toFixed(2);
   }
 
-  // 删除商品
   async function removeItem(productId) {
     const formData = new URLSearchParams();
     formData.append("productId", productId);
@@ -267,7 +283,6 @@
     loadCart();
   }
 
-  // 清空购物车
   async function clearCart() {
     const res = await fetch(`/api/cart/clear`, { method: "POST" });
 
@@ -280,7 +295,6 @@
     loadCart();
   }
 
-  // 下单
   async function placeOrder() {
     const res = await fetch('/api/order/create', { method: 'POST' });
 
