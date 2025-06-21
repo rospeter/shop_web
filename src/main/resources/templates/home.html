@@ -4,43 +4,33 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>电商首页</title>
-
-<!--    顶部导航栏 （导入）-->
     <link rel="stylesheet" th:href="@{/css/header.css}" />
     <style>
-        /* 页面重置 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; background-color: #f5f5f5; }
+        body { font-family: Arial, sans-serif; background-color: #f5f5f7; /* 淡灰，整体偏暖 */ }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            background-color: #ffffff;  /* 纯白 */
+        }
 
-        /* 主横幅区域 */
+
+
+
         .banner {
             width: 100%;
             height: 300px;
             background: url('/images/banner.jpg') no-repeat center center;
             background-size: cover;
             display: flex;
-            justify-content: flex-start; /* 左对齐 */
+            justify-content: flex-start;
             align-items: center;
-            color: #222; /* 深灰色文字 */
             font-size: 36px;
             font-weight: bold;
-            padding-left: 40px; /* 增加左内边距 */
-            background-color: white; /* 白色背景 */
+            padding-left: 40px;
+            background-color: white;
+            color: #222;
         }
-
-        .banner-text {
-            text-align: left; /* 左对齐文本 */
-            color: #222; /* 统一文字颜色 */
-        }
-
-        .banner .subtext {
-            font-size: 18px;
-            font-weight: 400;
-            margin-top: 10px;
-            color: #555; /* 次级文字用较浅灰色 */
-        }
-
-
 
         .banner .subtext {
             font-size: 18px;
@@ -49,8 +39,6 @@
             color: #f0f0f0;
         }
 
-
-        /* 商品分类导航 */
         .categories {
             display: flex;
             justify-content: space-around;
@@ -58,58 +46,78 @@
             padding: 20px 0;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        .categories .category {
+        .category {
             text-align: center;
             font-size: 18px;
             color: #333;
         }
-        .categories .category img {
+        .category img {
             width: 50px;
             height: 50px;
             margin-bottom: 10px;
         }
 
-        /* 推荐商品区域 */
         .products {
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-around;
+            gap: 10px;
+            justify-content: flex-start;
             padding: 20px;
         }
-        .products .product {
-            width: 30%;
+
+        .product {
+            width: 15.3%;
             background-color: #fff;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: 1px solid transparent;
+            border-radius: 6px;
             overflow: hidden;
             text-align: center;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease, border 0.2s ease;
+            cursor: pointer;
         }
-        .products .product img {
+
+        .product:hover {
+            transform: translateY(-2px);
+        }
+
+        .product.selected {
+            border: 1px solid #ff4d4f;
+        }
+
+        .product img {
             width: 100%;
-            height: 200px;
-            object-fit: cover;
+            height: 90px;
+            object-fit: contain;
+            background-color: #fafafa;
+            padding: 6px;
         }
-        .products .product .info {
+
+        .product .info {
             padding: 10px;
         }
-        .products .product .info .name {
-            font-size: 18px;
+
+        .product .name {
+            font-size: 14px;
             font-weight: bold;
             color: #333;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
-        .products .product .info .price {
-            font-size: 16px;
+
+        .product .price {
+            font-size: 14px;
             color: #e74c3c;
         }
 
-        /* 底部信息区 */
         .footer {
             background-color: #333;
             color: #fff;
             padding: 20px;
             text-align: center;
         }
+
         .footer a {
             color: #fff;
             text-decoration: none;
@@ -122,78 +130,78 @@
 <!-- 顶部导航栏 -->
 <div th:replace="header :: header"></div>
 
-<!-- 主横幅区域 -->
-<div class="banner">
-    <div class="banner-text">
+
+<div class="container">
+    <!-- 主横幅区域 -->
+    <div class="banner">
         欢迎来到乐买电子购物平台！
         <div class="subtext">精选商品 每日上新 · 低价好货限时抢购！</div>
     </div>
-</div>
 
-
-<!-- 商品分类导航 -->
-<!-- 商品分类导航 -->
-<div class="categories">
-    <div class="category">
-        <img src="https://via.placeholder.com/50" alt="分类1">
-        <div>分类1</div>
+    <!-- 商品分类导航 -->
+    <div class="categories">
+        <div class="category">
+            <img src="https://via.placeholder.com/50" alt="分类1">
+            <div>分类1</div>
+        </div>
+        <div class="category">
+            <img src="https://via.placeholder.com/50" alt="分类2">
+            <div>分类2</div>
+        </div>
+        <div class="category">
+            <img src="https://via.placeholder.com/50" alt="分类3">
+            <div>分类3</div>
+        </div>
     </div>
-    <div class="category">
-        <img src="https://via.placeholder.com/50" alt="分类2">
-        <div>分类2</div>
+
+    <!-- 推荐商品区域 -->
+    <div class="products" id="product-list">
+        <!-- 商品将通过 JS 加载 -->
     </div>
-    <div class="category">
-        <img src="https://via.placeholder.com/50" alt="分类3">
-        <div>分类3</div>
-    </div>
-</div>
 
-<!-- 推荐商品区域 -->
-<div class="products" id="product-list">
-    <!-- 商品将通过 JS 加载 -->
-</div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch("/api/products")
+                .then(res => res.json())
+                .then(products => {
+                    const container = document.getElementById("product-list");
+                    container.innerHTML = "";
+                    products.forEach(p => {
+                        const productDiv = document.createElement("div");
+                        productDiv.className = "product";
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        fetch("/api/products")
-            .then(res => res.json())
-            .then(products => {
-                const container = document.getElementById("product-list");
-                container.innerHTML = "";
-                products.forEach(p => {
-                    const productDiv = document.createElement("div");
-                    productDiv.className = "product";
-
-                    productDiv.innerHTML = `
-                    <a href="/product/${p.id}" style="text-decoration: none; color: inherit;">
+                        productDiv.innerHTML = `
                         <img src="${p.imageUrl || 'https://via.placeholder.com/300x200?text=无图'}" alt="${p.name}">
                         <div class="info">
-                            <div class="name"></div>
-                            <div class="price"></div>
+                            <div class="name">${p.name}</div>
+                            <div class="price">￥${p.price.toFixed(2)}</div>
                         </div>
-                    </a>
-                `;
+                    `;
 
-                    productDiv.querySelector(".name").textContent = p.name;
-                    productDiv.querySelector(".price").textContent = `￥${p.price.toFixed(2)}`;
+                        productDiv.addEventListener("click", () => {
+                            document.querySelectorAll('.product').forEach(el => el.classList.remove('selected'));
+                            productDiv.classList.add('selected');
+                        });
 
-                    container.appendChild(productDiv);
+                        container.appendChild(productDiv);
+                    });
+                })
+                .catch(err => {
+                    console.error("加载商品失败:", err);
+                    document.getElementById("product-list").textContent = "加载商品失败，请稍后重试。";
                 });
-            })
-            .catch(err => {
-                console.error("加载商品失败:", err);
-                document.getElementById("product-list").textContent = "加载商品失败，请稍后重试。";
-            });
-    });
-</script>
+        });
+    </script>
 
-<!-- 底部信息区 -->
-<div class="footer">
-    <a href="#">关于我们</a>
-    <a href="#">联系我们</a>
-    <a href="#">隐私政策</a>
-    <a href="#">社交媒体</a>
+    <!-- 底部信息区 -->
+    <div class="footer">
+        <a href="#">关于我们</a>
+        <a href="#">联系我们</a>
+        <a href="#">隐私政策</a>
+        <a href="#">社交媒体</a>
+    </div>
 </div>
+
 
 </body>
 </html>
