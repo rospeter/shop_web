@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>购物车</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      padding: 40px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .top-bar a,
+    .top-bar button {
+      background-color: #3498db;
+      color: white;
+      padding: 8px 16px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.2s ease;
+    }
+
+    .top-bar a:hover,
+    .top-bar button:hover {
+      background-color: #2980b9;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    th, td {
+      padding: 15px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f0f0f0;
+      font-size: 18px;
+    }
+
+    img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+
+    .remove-btn {
+      color: #e74c3c;
+      cursor: pointer;
+    }
+
+    .total-price {
+      text-align: right;
+      font-size: 20px;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    .empty {
+      text-align: center;
+      margin-top: 100px;
+      font-size: 24px;
+      color: #999;
+    }
+
+    .quantity-control {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .quantity-control button {
+      width: 30px;
+      height: 30px;
+      font-size: 18px;
+      border: 1px solid #ccc;
+      background-color: #f0f0f0;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    .quantity-control input {
+      width: 50px;
+      text-align: center;
+      font-size: 16px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a href="/home">← 返回首页</a>
+  <button onclick="clearCart()">🗑 清空购物车</button>
+</div>
+
+<h2>🛒 我的购物车</h2>
+
+<div id="cart-container"></div>
+
+<script>
+  async function loadCart() {
+    const res = await fetch("/api/cart/list");
+    const data = await res.json();
+
+    const container = document.getElementById("cart-container");
+    if (data.length === 0) {
+      container.innerHTML = `<div class="empty">购物车为空~</div>`;
+      return;
+    }
+
+    let html = `
+      <table>
+        <thead>
+          <tr>
+            <th>图片</th>
+            <th>名称</th>
+            <th>单价</th>
+            <th>数量</th>
+            <th>小计</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>`;
+
+    data.forEach(item => {
+      const subTotal = item.price * item.quantity;
+
+      html += `
+        <tr data-id="${item.productId}">
+          <td><img src="${item.imageUrl || 'https://via.placeholder.com/80'}" alt="商品图"></td>
+          <td>${item.name}</td>
+          <td class="price">￥${item.price.toFixed(2)}</td>
+          <td>
+            <div class="quantity-control">
+              <button onclick="changeQuantity(${item.productId}, -1)">-</button>
+              <input type="text" value="${item.quantity}" onchange="manualInput(this, ${item.productId})">
+              <button onclick="changeQuantity(${item.productId}, 1)">+</button>
+            </div>
+          </td>
+          <td class="subtotal">￥${subTotal.toFixed(2)}</td>
+          <td><span class="remove-btn" onclick="removeItem(${item.productId})">删除</span></td>
+        </tr>`;
+    });
+
+    html += `</tbody></table><div class="total-price" id="total-price"></div>`;
+    container.innerHTML = html;
+    recalculateTotal();
+  }
+
+  function changeQuantity(productId, delta) {
+    const row = document.querySelector(`tr[data-id="${productId}"]`);
+    const input = row.querySelector("input");
+    let quantity = parseInt(input.value);
+    if (isNaN(quantity)) quantity = 1;
+    quantity = Math.max(1, quantity + delta);
+    input.value = quantity;
+    updateQuantity(productId, quantity, row);
+  }
+
+  function manualInput(inputElem, productId) {
+    let quantity = parseInt(inputElem.value);
+    if (isNaN(quantity) || quantity < 1) quantity = 1;
+    inputElem.value = quantity;
+    const row = inputElem.closest("tr");
+    updateQuantity(productId, quantity, row);
+  }
+
+  async function updateQuantity(productId, quantity, row) {
+    const priceText = row.querySelector(".price").innerText.replace("￥", "");
+    const subtotalCell = row.querySelector(".subtotal");
+
+    const formData = new URLSearchParams();
+    formData.append("productId", productId);
+    formData.append("quantity", quantity);
+
+    await fetch(`/api/cart/update`, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: formData
+    });
+
+    const price = parseFloat(priceText);
+    subtotalCell.innerText = "￥" + (price * quantity).toFixed(2);
+    recalculateTotal();
+  }
+
+  function recalculateTotal() {
+    let total = 0;
+    document.querySelectorAll(".subtotal").forEach(cell => {
+      const val = parseFloat(cell.innerText.replace("￥", ""));
+      total += val;
+    });
+    document.getElementById("total-price").innerText = "总价：￥" + total.toFixed(2);
+  }
+
+  async function removeItem(productId) {
+    const formData = new URLSearchParams();
+    formData.append("productId", productId);
+
+    await fetch(`/api/cart/remove`, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: formData
+    });
+    loadCart();
+  }
+
+  async function clearCart() {
+    await fetch(`/api/cart/clear`, { method: "POST" });
+    loadCart();
+  }
+
+  loadCart();
+</script>
+
+</body>
+</html>

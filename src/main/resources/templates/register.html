@@ -89,8 +89,8 @@
 <script>
     document.getElementById("registerForm").addEventListener("submit", function(e) {
         e.preventDefault(); // 阻止默认提交
-        const username = document.getElementById("username").value;
-        const email = document.getElementById("email").value;
+        const username = document.getElementById("username").value.trim();
+        const email = document.getElementById("email").value.trim();
         const password = document.getElementById("password").value;
         const confirm = document.getElementById("confirm").value;
 
@@ -104,8 +104,13 @@
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ username, email, password })
         })
-            .then(res => res.text())
-            .then(data => alert(data))
+            .then(res => res.json())
+            .then(data => {
+                alert(data.message);
+                if(data.success) {
+                    window.location.href = "/home"; // 注册成功跳首页
+                }
+            })
             .catch(err => alert("注册失败：" + err));
     });
 </script>

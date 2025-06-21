@@ -2,6 +2,7 @@ package com.example.lemall.controller;
 
 import com.example.lemall.entity.User;
 import com.example.lemall.repository.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,15 +15,28 @@ public class UserController {
     private UserRepository userRepository;
 
     @PostMapping("/register")
-    public String register(@RequestBody User user) {
+    public Response register(@RequestBody User user, HttpSession session) {
         if (userRepository.findByUsername(user.getUsername()).isPresent()) {
-            return "用户名已存在，不能注册";
+            return new Response(false, "用户名已存在，不能注册");
         }
-
-        user.setRole("USER");  // 这里给新注册用户赋默认角色 USER
+        user.setRole("USER");
         userRepository.save(user);
-        return "注册成功！";
+
+        // 自动登录
+        session.setAttribute("user", user);
+
+        return new Response(true, "注册成功，自动登录！");
     }
 
-}
+    static class Response {
+        private boolean success;
+        private String message;
 
+        public Response(boolean success, String message) {
+            this.success = success;
+            this.message = message;
+        }
+        public boolean isSuccess() { return success; }
+        public String getMessage() { return message; }
+    }
+}

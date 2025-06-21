@@ -1,14 +1,64 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
     <title>商品详情</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        .product-container { max-width: 600px; margin: auto; }
-        .product-image { width: 100%; height: auto; border-radius: 8px; }
-        .product-name { font-size: 28px; margin-top: 20px; }
-        .product-price { font-size: 24px; color: #e74c3c; margin-top: 10px; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            padding: 40px;
+        }
+
+        /* 同购物车页面的按钮样式 */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .top-bar a {
+            background-color: #3498db;
+            color: white;
+            padding: 8px 16px;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.2s ease;
+        }
+
+        .top-bar a:hover {
+            background-color: #2980b9;
+        }
+
+        .product-container {
+            max-width: 600px;
+            margin: auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .product-image {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .product-name {
+            font-size: 28px;
+            margin-top: 20px;
+        }
+
+        .product-price {
+            font-size: 24px;
+            color: #e74c3c;
+            margin-top: 10px;
+        }
+
         .add-cart-btn {
             margin-top: 20px;
             padding: 12px 30px;
@@ -19,15 +69,47 @@
             border-radius: 6px;
             cursor: pointer;
         }
-        .add-cart-btn:hover { background-color: #2980b9; }
+
+        .add-cart-btn:hover {
+            background-color: #2980b9;
+        }
     </style>
 </head>
 <body>
-<div class="product-container">
-    <img class="product-image" src="${product.imageUrl}" alt="${product.name}" />
-    <div class="product-name">${product.name}</div>
-    <div class="product-price">￥${product.price}</div>
-    <button class="add-cart-btn" onclick="alert('加入购物车功能稍后实现！')">加入购物车</button>
+
+<!-- ✅ 统一风格的返回按钮 -->
+<div class="top-bar">
+    <a href="/home">← 返回首页</a>
 </div>
+
+<!-- ✅ 商品展示 -->
+<div class="product-container">
+    <img class="product-image" th:src="${product.imageUrl}" th:alt="${product.name}" />
+    <div class="product-name" th:text="${product.name}">商品名称</div>
+    <div class="product-price" th:text="'￥' + ${product.price}">￥123.00</div>
+    <button class="add-cart-btn" th:onclick="'addToCart(' + '\'' + ${product.id} + '\'' + ')'">加入购物车</button>
+</div>
+
+<!-- ✅ 加入购物车脚本 -->
+<script>
+    async function addToCart(productId) {
+        try {
+            const formData = new URLSearchParams();
+            formData.append("productId", productId);
+
+            const res = await fetch("/api/cart/add", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: formData
+            });
+            const text = await res.text();
+            alert(text);
+        } catch (error) {
+            alert("添加失败，请稍后重试");
+            console.error(error);
+        }
+    }
+</script>
+
 </body>
 </html>
