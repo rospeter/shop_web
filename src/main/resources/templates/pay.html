@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>支付详情</title>
+    <style>
+        body { font-family: Arial; background: #f9f9f9; padding: 40px; }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        h2 { margin-bottom: 30px; }
+        .info {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        button {
+            padding: 12px 24px;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #219150;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>确认支付</h2>
+    <div class="info" id="order-info">正在加载订单信息...</div>
+    <button onclick="payNow()">确认支付</button>
+</div>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const orderId = urlParams.get('orderId');
+
+    async function loadOrder() {
+        const res = await fetch(`/api/order/detail?orderId=${orderId}`);
+        const data = await res.json();
+        document.getElementById('order-info').innerText = `订单号：${data.orderId}，总价：￥${data.total}`;
+    }
+
+    async function payNow() {
+        // 正确跳转到 pay-code 页面（由 Thymeleaf 渲染）
+        window.location.href = `/order/pay-code?orderId=${orderId}`;
+    }
+
+
+    loadOrder();
+</script>
+</body>
+</html>

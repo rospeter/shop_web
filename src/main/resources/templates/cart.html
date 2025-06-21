@@ -166,7 +166,24 @@
         </tr>`;
     });
 
-    html += `</tbody></table><div class="total-price" id="total-price"></div>`;
+    html += `
+        </tbody>
+      </table>
+      <div class="total-price" id="total-price"></div>
+      <div style="text-align: right; margin-top: 10px;">
+        <button onclick="placeOrder()" style="
+          background-color: #27ae60;
+          color: white;
+          border: none;
+          padding: 8px 16px;
+          font-size: 16px;
+          border-radius: 6px;
+          cursor: pointer;
+          transition: background-color 0.2s ease;
+        ">去支付</button>
+      </div>
+    `;
+
     container.innerHTML = html;
     recalculateTotal();
   }
@@ -234,8 +251,25 @@
     loadCart();
   }
 
+  async function placeOrder() {
+    const res = await fetch('/api/order/create', { method: 'POST' });
+    const data = await res.json();
+
+    if (data.success) {
+      // 改成跳转到支付详情页，而不是二维码页面
+      window.location.href = `/order/pay?orderId=${data.orderId}`;
+
+    } else {
+      alert("下单失败：" + data.message);
+    }
+  }
+
+
+
+  // 页面加载时先调用一次
   loadCart();
 </script>
+
 
 </body>
 </html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>扫码支付</title>
+  <style>
+    body { font-family: Arial; background: #f4f4f4; text-align: center; padding: 50px; }
+    .box {
+      background: white;
+      display: inline-block;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    img {
+      width: 200px;
+      height: 200px;
+      margin: 20px 0;
+    }
+    h2 { margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+<div class="box">
+  <h2>请使用微信/支付宝扫码支付</h2>
+  <img src="https://via.placeholder.com/200x200.png?text=扫码支付" alt="支付二维码" />
+  <p>订单号：<span id="order-id">加载中...</span></p>
+</div>
+
+<script>
+  const orderId = new URLSearchParams(window.location.search).get("orderId");
+  document.getElementById("order-id").innerText = orderId;
+</script>
+</body>
+</html>
