@@ -1,15 +1,18 @@
 <!-- templates/header.html -->
 <div class="navbar" th:fragment="header">
-    <!-- LOGO 和 主页按钮放在一起 -->
+    <!-- LOGO 和 首页按钮 -->
     <div class="logo">
-        <a href="/home" style="color: #333; text-decoration: none;">乐买电子购物</a>
-        <a href="/home" style="margin-left: 20px;">主页</a>
+        <a href="/home">乐买电子购物</a>
+        <a href="/home" class="home-btn">主页</a>
     </div>
 
-    <div class="search-bar">
-        <input type="text" placeholder="搜索商品..." />
-    </div>
+    <!-- 搜索栏 -->
+    <form class="search-bar" method="get" action="/products">
+        <input type="text" name="keyword" placeholder="搜索商品..." />
+        <button type="submit" class="search-btn">🔍</button>
+    </form>
 
+    <!-- 用户链接 -->
     <div class="user-links">
         <span th:if="${session.user == null}">
             <a href="/login">登录</a>

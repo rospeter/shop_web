@@ -5,32 +5,26 @@
   <title>购物车</title>
   <link rel="stylesheet" th:href="@{/css/header.css}" />
   <style>
-
     body {
       font-family: Arial, sans-serif;
       background-color: #f5f5f5;
       padding-top: 80px; /* 避免顶部导航栏遮挡 */
       margin: 0;
     }
-
     .container {
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 20px;
     }
-
     h2 {
       text-align: center;
       margin-bottom: 30px;
     }
-
     .top-bar {
       display: flex;
       justify-content: space-between;
       margin-bottom: 20px;
     }
-
-    .top-bar a,
     .top-bar button {
       background-color: #3498db;
       color: white;
@@ -39,66 +33,54 @@
       border: none;
       border-radius: 6px;
       cursor: pointer;
-      text-decoration: none;
       transition: background-color 0.2s ease;
     }
-
-    .top-bar a:hover,
     .top-bar button:hover {
       background-color: #2980b9;
     }
-
     table {
       width: 100%;
       border-collapse: collapse;
       background-color: #fff;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
-
     th, td {
       padding: 15px;
       text-align: center;
       border-bottom: 1px solid #ddd;
     }
-
     th {
       background-color: #f0f0f0;
       font-size: 18px;
     }
-
     img {
       width: 80px;
       height: 80px;
       object-fit: cover;
       border-radius: 6px;
     }
-
     .remove-btn {
       color: #e74c3c;
       cursor: pointer;
     }
-
     .total-price {
       text-align: right;
       font-size: 20px;
       margin-top: 20px;
       font-weight: bold;
     }
-
     .empty {
       text-align: center;
       margin-top: 100px;
       font-size: 24px;
       color: #999;
     }
-
     .quantity-control {
       display: flex;
       justify-content: center;
       align-items: center;
       gap: 6px;
     }
-
     .quantity-control button {
       width: 30px;
       height: 30px;
@@ -108,7 +90,6 @@
       cursor: pointer;
       border-radius: 4px;
     }
-
     .quantity-control input {
       width: 50px;
       text-align: center;
@@ -136,9 +117,19 @@
 </div>
 
 <script>
-  // 脚本保持不变
+  // 页面加载完成后自动调用
+  document.addEventListener("DOMContentLoaded", () => {
+    loadCart();
+  });
+
+  // 加载购物车数据并渲染
   async function loadCart() {
     const res = await fetch("/api/cart/list");
+    if (res.status === 401) {
+      alert("请先登录！");
+      window.location.href = "/login";
+      return;
+    }
     const data = await res.json();
     const container = document.getElementById("cart-container");
 
@@ -201,24 +192,27 @@
     recalculateTotal();
   }
 
-  function changeQuantity(productId, delta) {
+  // 改变数量（+/-按钮）
+  async function changeQuantity(productId, delta) {
     const row = document.querySelector(`tr[data-id="${productId}"]`);
     const input = row.querySelector("input");
     let quantity = parseInt(input.value);
     if (isNaN(quantity)) quantity = 1;
     quantity = Math.max(1, quantity + delta);
     input.value = quantity;
-    updateQuantity(productId, quantity, row);
+    await updateQuantity(productId, quantity, row);
   }
 
-  function manualInput(inputElem, productId) {
+  // 手动输入数量框触发
+  async function manualInput(inputElem, productId) {
     let quantity = parseInt(inputElem.value);
     if (isNaN(quantity) || quantity < 1) quantity = 1;
     inputElem.value = quantity;
     const row = inputElem.closest("tr");
-    updateQuantity(productId, quantity, row);
+    await updateQuantity(productId, quantity, row);
   }
 
+  // 向后端更新数量
   async function updateQuantity(productId, quantity, row) {
     const priceText = row.querySelector(".price").innerText.replace("￥", "");
     const subtotalCell = row.querySelector(".subtotal");
@@ -227,17 +221,24 @@
     formData.append("productId", productId);
     formData.append("quantity", quantity);
 
-    await fetch(`/api/cart/update`, {
+    const res = await fetch(`/api/cart/update`, {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: formData
     });
+
+    if (res.status === 401) {
+      alert("请先登录！");
+      window.location.href = "/login";
+      return;
+    }
 
     const price = parseFloat(priceText);
     subtotalCell.innerText = "￥" + (price * quantity).toFixed(2);
     recalculateTotal();
   }
 
+  // 重新计算总价
   function recalculateTotal() {
     let total = 0;
     document.querySelectorAll(".subtotal").forEach(cell => {
@@ -246,24 +247,49 @@
     document.getElementById("total-price").innerText = "总价：￥" + total.toFixed(2);
   }
 
+  // 删除商品
   async function removeItem(productId) {
     const formData = new URLSearchParams();
     formData.append("productId", productId);
-    await fetch(`/api/cart/remove`, {
+
+    const res = await fetch(`/api/cart/remove`, {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: formData
     });
+
+    if (res.status === 401) {
+      alert("请先登录！");
+      window.location.href = "/login";
+      return;
+    }
+
     loadCart();
   }
 
+  // 清空购物车
   async function clearCart() {
-    await fetch(`/api/cart/clear`, { method: "POST" });
+    const res = await fetch(`/api/cart/clear`, { method: "POST" });
+
+    if (res.status === 401) {
+      alert("请先登录！");
+      window.location.href = "/login";
+      return;
+    }
+
     loadCart();
   }
 
+  // 下单
   async function placeOrder() {
     const res = await fetch('/api/order/create', { method: 'POST' });
+
+    if (res.status === 401) {
+      alert("请先登录！");
+      window.location.href = "/login";
+      return;
+    }
+
     const data = await res.json();
     if (data.success) {
       window.location.href = `/order/pay?orderId=${data.orderId}`;
@@ -271,8 +297,6 @@
       alert("下单失败：" + data.message);
     }
   }
-
-  loadCart();
 </script>
 
 </body>

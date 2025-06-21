@@ -1,47 +1,94 @@
 /* 通用导航栏 Apple 风格简约（固定在顶部） */
 .navbar {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
+    top: 0; left: 0; right: 0;
     z-index: 1000;
 
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #f8f8f8;
+
+    /* 半透明白色背景 + 背景模糊 */
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: saturate(180%) blur(10px);
+
     padding: 12px 24px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     font-size: 16px;
 }
 
+
+/* LOGO 样式 */
 .navbar .logo {
     font-size: 20px;
-    font-weight: 600;
+    font-weight: bold;
     color: #333;
+}
+
+/* LOGO 内部链接样式统一 */
+.logo a {
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+    margin-right: 20px;
+}
+
+/* 首页按钮风格与蓝色按钮统一 */
+.logo a.home-btn {
+    color: #007aff;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color .2s;
+}
+
+.logo a.home-btn:hover {
+    color: #005bb5;
+}
+
+/* 搜索栏样式 */
+.navbar .search-bar {
+    display: flex;
+    align-items: center;
 }
 
 .navbar .search-bar input {
     width: 240px;
     padding: 6px 8px;
     border: 1px solid #ccc;
-    border-radius: 6px;
+    border-radius: 10px 0 0 10px;
     outline: none;
     transition: border-color .2s;
+    font-size: 15px;
 }
 
 .navbar .search-bar input:focus {
     border-color: #007aff;
 }
 
-.navbar a {
+.navbar .search-bar .search-btn {
+    padding: 6px 14px;
+    background-color: #0a84ff;
+    color: white;
+    border: none;
+    border-radius: 0 10px 10px 0;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.navbar .search-bar .search-btn:hover {
+    background-color: #0060df;
+}
+
+/* 用户链接 */
+.navbar .user-links a {
     margin-left: 16px;
     color: #007aff;
     text-decoration: none;
     transition: color .2s;
 }
 
-.navbar a:hover {
+.navbar .user-links a:hover {
     color: #005bb5;
 }

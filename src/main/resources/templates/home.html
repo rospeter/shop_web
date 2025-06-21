@@ -16,15 +16,39 @@
         .banner {
             width: 100%;
             height: 300px;
-            background: url('https://via.placeholder.com/1200x300') no-repeat center center;
+            background: url('/images/banner.jpg') no-repeat center center;
             background-size: cover;
             display: flex;
-            justify-content: center;
+            justify-content: flex-start; /* 左对齐 */
             align-items: center;
-            color: #fff;
+            color: #222; /* 深灰色文字 */
             font-size: 36px;
             font-weight: bold;
+            padding-left: 40px; /* 增加左内边距 */
+            background-color: white; /* 白色背景 */
         }
+
+        .banner-text {
+            text-align: left; /* 左对齐文本 */
+            color: #222; /* 统一文字颜色 */
+        }
+
+        .banner .subtext {
+            font-size: 18px;
+            font-weight: 400;
+            margin-top: 10px;
+            color: #555; /* 次级文字用较浅灰色 */
+        }
+
+
+
+        .banner .subtext {
+            font-size: 18px;
+            font-weight: 400;
+            margin-top: 10px;
+            color: #f0f0f0;
+        }
+
 
         /* 商品分类导航 */
         .categories {
@@ -100,8 +124,12 @@
 
 <!-- 主横幅区域 -->
 <div class="banner">
-    欢迎来到我们的电商平台！
+    <div class="banner-text">
+        欢迎来到乐买电子购物平台！
+        <div class="subtext">精选商品 每日上新 · 低价好货限时抢购！</div>
+    </div>
 </div>
+
 
 <!-- 商品分类导航 -->
 <!-- 商品分类导航 -->
