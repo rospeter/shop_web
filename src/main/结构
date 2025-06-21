@@ -1,0 +1,50 @@
+lemall
+├─java
+│  └─com.example.lemall
+│      ├─config
+│      │    └─DataInitializer.java              # 初始化配置
+│      ├─controller
+│      │    ├─AdminProductController.java       # 后台商品管理控制器
+│      │    ├─CartApiController.java             # 购物车API接口
+│      │    ├─CartController.java                # 购物车页面控制器
+│      │    ├─HomeController.java                # 首页控制器
+│      │    ├─LoginController.java               # 登录控制器
+│      │    ├─OrderController.java               # 订单相关API接口
+│      │    ├─OrderPageController.java           # 订单页面控制器
+│      │    ├─ProductApiController.java          # 商品API接口
+│      │    ├─ProductController.java             # 商品页面控制器
+│      │    ├─RegisterController.java            # 注册控制器
+│      │    ├─UserApiController.java             # 用户API接口
+│      │    └─UserPageController.java            # 用户页面控制器
+│      ├─entity
+│      │    ├─CartItem.java                       # 购物车实体
+│      │    ├─Order.java                          # 订单实体
+│      │    ├─OrderItem.java                      # 订单项实体
+│      │    ├─Product.java                        # 商品实体
+│      │    └─User.java                           # 用户实体
+│      └─repository
+│           ├─OrderItemRepository.java           # 订单项数据库接口
+│           ├─OrderRepository.java               # 订单数据库接口
+│           ├─ProductRepository.java             # 商品数据库接口
+│           └─UserRepository.java                # 用户数据库接口
+│
+└─resources
+    ├─application.properties                      # 配置文件
+    ├─static                                      # 静态资源（CSS、JS、图片）
+    └─templates                                   # Thymeleaf模板页面
+        ├─cart.html                              # 购物车页面
+        ├─header.html                            # 公共头部
+        ├─home.html                              # 首页
+        ├─login.html                             # 登录页
+        ├─pay-code.html                          # 支付二维码页
+        ├─pay-success.html                       # 支付成功页
+        ├─pay.html                               # 支付详情页
+        ├─product.html                           # 商品页
+        ├─product_detail.html                    # 商品详情页
+        ├─register.html                          # 注册页
+        ├─user-center.html                       # 用户中心页
+        ├─user-orders.html                       # 用户订单列表页
+        └─admin                                  # 管理后台页面
+            ├─admin_header.html
+            ├─product_form.html
+            └─product_list.html

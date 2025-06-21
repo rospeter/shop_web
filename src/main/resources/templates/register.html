@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>注册页面 - 乐买电商</title>
+    <link rel="stylesheet" th:href="@{/css/header.css}" />
+
     <style>
         /* 样式不变 */
         body {
@@ -64,6 +66,8 @@
     </style>
 </head>
 <body>
+<!-- 顶部导航栏 -->
+<div th:replace="header :: header"></div>
 <div class="register-box">
     <h2>注册新用户</h2>
     <form id="registerForm">

@@ -1,0 +1,47 @@
+/* 通用导航栏 Apple 风格简约（固定在顶部） */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f8f8f8;
+    padding: 12px 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+}
+
+.navbar .logo {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+}
+
+.navbar .search-bar input {
+    width: 240px;
+    padding: 6px 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color .2s;
+}
+
+.navbar .search-bar input:focus {
+    border-color: #007aff;
+}
+
+.navbar a {
+    margin-left: 16px;
+    color: #007aff;
+    text-decoration: none;
+    transition: color .2s;
+}
+
+.navbar a:hover {
+    color: #005bb5;
+}

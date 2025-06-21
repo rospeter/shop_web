@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>登录</title>
+    <link rel="stylesheet" th:href="@{/css/header.css}" />
+
     <style>
         body {
             background-color: #f5f5f5;
@@ -84,6 +86,8 @@
     </style>
 </head>
 <body>
+<!-- 顶部导航栏 -->
+<div th:replace="header :: header"></div>
 <div class="login-box no-select">
     <h2>用户登录</h2>
     <!--action需要填写目标url才会生效

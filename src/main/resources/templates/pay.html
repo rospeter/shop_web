@@ -1,40 +1,55 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>支付详情</title>
+    <link rel="stylesheet" th:href="@{/css/header.css}" />
+
     <style>
-        body { font-family: Arial; background: #f9f9f9; padding: 40px; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            background-color: #f2f2f7;
+            padding: 80px 30px 30px 30px; /* 顶部导航留白 */
+            margin: 0;
+        }
         .container {
             max-width: 600px;
-            margin: auto;
-            background: #fff;
+            margin: 0 auto;
+            background-color: #ffffff;
             padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             text-align: center;
         }
-        h2 { margin-bottom: 30px; }
+        h2 {
+            margin-bottom: 30px;
+            color: #1c1c1e;
+        }
         .info {
             font-size: 18px;
             margin-bottom: 20px;
-            color: #333;
+            color: #3a3a3c;
         }
         button {
-            padding: 12px 24px;
-            background-color: #27ae60;
+            padding: 10px 25px;
+            background-color: #0a84ff;
             color: white;
             border: none;
             font-size: 16px;
-            border-radius: 6px;
+            border-radius: 12px;
             cursor: pointer;
+            transition: background-color 0.2s ease;
         }
         button:hover {
-            background-color: #219150;
+            background-color: #0060df;
         }
     </style>
 </head>
 <body>
+
+<!-- 顶部导航栏 -->
+<div th:replace="header :: header"></div>
+
 <div class="container">
     <h2>确认支付</h2>
     <div class="info" id="order-info">正在加载订单信息...</div>
@@ -48,16 +63,15 @@
     async function loadOrder() {
         const res = await fetch(`/api/order/detail?orderId=${orderId}`);
         const data = await res.json();
-        document.getElementById('order-info').innerText = `订单号：${data.orderId}，总价：￥${data.total}`;
+        document.getElementById('order-info').innerText = `订单号：${data.orderId}，总价：￥${data.total.toFixed(2)}`;
     }
 
-    async function payNow() {
-        // 正确跳转到 pay-code 页面（由 Thymeleaf 渲染）
+    function payNow() {
         window.location.href = `/order/pay-code?orderId=${orderId}`;
     }
 
-
     loadOrder();
 </script>
+
 </body>
 </html>

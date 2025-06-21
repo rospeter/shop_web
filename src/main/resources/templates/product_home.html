@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>商品列表</title>
+    <link rel="stylesheet" th:href="@{/css/header.css}" />
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            background-color: #f2f2f7;
+            padding: 80px 30px 30px 30px; /* 给顶部导航留空间 */
+            margin: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #1c1c1e;
+            margin-bottom: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 0 1px #d1d1d6;
+        }
+        th, td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid #e5e5ea;
+            color: #3a3a3c;
+        }
+        th {
+            background-color: #1c1c1e;
+            color: white;
+            font-weight: 600;
+        }
+        tbody tr:hover {
+            background-color: #f0f0f5;
+        }
+        a.product-link {
+            color: #0a84ff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        a.product-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<!-- 顶部导航栏 -->
+<div th:replace="header :: header"></div>
+
+<div class="container">
+    <h2>商品列表</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>名称</th>
+            <th>描述</th>
+            <th>价格</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${products}">
+            <td>
+                <a th:href="@{/product/detail/{id}(id=${product.id})}" class="product-link" th:text="${product.name}">商品名</a>
+            </td>
+            <td th:text="${product.description}">描述</td>
+            <td th:text="'￥' + ${product.price}">价格</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

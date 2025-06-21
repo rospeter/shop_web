@@ -1,0 +1,26 @@
+<!-- templates/header.html -->
+<div class="navbar" th:fragment="header">
+    <!-- LOGO 和 主页按钮放在一起 -->
+    <div class="logo">
+        <a href="/home" style="color: #333; text-decoration: none;">乐买电子购物</a>
+        <a href="/home" style="margin-left: 20px;">主页</a>
+    </div>
+
+    <div class="search-bar">
+        <input type="text" placeholder="搜索商品..." />
+    </div>
+
+    <div class="user-links">
+        <span th:if="${session.user == null}">
+            <a href="/login">登录</a>
+            <a href="/register">注册</a>
+        </span>
+        <span th:if="${session.user != null}">
+            <span>欢迎，<span th:text="${session.user.username}"></span></span>
+            <a href="/user/center">用户中心</a>
+            <a href="/logout">退出登录</a>
+            <a th:if="${session.user.role == 'ADMIN'}" href="/admin/products">后台管理</a>
+        </span>
+        <a href="/cart">购物车</a>
+    </div>
+</div>

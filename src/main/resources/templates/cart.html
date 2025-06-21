@@ -1,13 +1,22 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>购物车</title>
+  <link rel="stylesheet" th:href="@{/css/header.css}" />
   <style>
+
     body {
       font-family: Arial, sans-serif;
       background-color: #f5f5f5;
-      padding: 40px;
+      padding-top: 80px; /* 避免顶部导航栏遮挡 */
+      margin: 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
     }
 
     h2 {
@@ -112,21 +121,27 @@
 </head>
 <body>
 
-<div class="top-bar">
-  <a href="/home">← 返回首页</a>
-  <button onclick="clearCart()">🗑 清空购物车</button>
+<!-- 顶部导航栏 -->
+<div th:replace="header :: header"></div>
+
+<!-- 主体内容容器 -->
+<div class="container">
+  <div class="top-bar">
+    <button onclick="clearCart()">🗑 清空购物车</button>
+  </div>
+
+  <h2>🛒 我的购物车</h2>
+
+  <div id="cart-container"></div>
 </div>
 
-<h2>🛒 我的购物车</h2>
-
-<div id="cart-container"></div>
-
 <script>
+  // 脚本保持不变
   async function loadCart() {
     const res = await fetch("/api/cart/list");
     const data = await res.json();
-
     const container = document.getElementById("cart-container");
+
     if (data.length === 0) {
       container.innerHTML = `<div class="empty">购物车为空~</div>`;
       return;
@@ -148,7 +163,6 @@
 
     data.forEach(item => {
       const subTotal = item.price * item.quantity;
-
       html += `
         <tr data-id="${item.productId}">
           <td><img src="${item.imageUrl || 'https://via.placeholder.com/80'}" alt="商品图"></td>
@@ -181,8 +195,7 @@
           cursor: pointer;
           transition: background-color 0.2s ease;
         ">去支付</button>
-      </div>
-    `;
+      </div>`;
 
     container.innerHTML = html;
     recalculateTotal();
@@ -228,8 +241,7 @@
   function recalculateTotal() {
     let total = 0;
     document.querySelectorAll(".subtotal").forEach(cell => {
-      const val = parseFloat(cell.innerText.replace("￥", ""));
-      total += val;
+      total += parseFloat(cell.innerText.replace("￥", ""));
     });
     document.getElementById("total-price").innerText = "总价：￥" + total.toFixed(2);
   }
@@ -237,7 +249,6 @@
   async function removeItem(productId) {
     const formData = new URLSearchParams();
     formData.append("productId", productId);
-
     await fetch(`/api/cart/remove`, {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -254,22 +265,15 @@
   async function placeOrder() {
     const res = await fetch('/api/order/create', { method: 'POST' });
     const data = await res.json();
-
     if (data.success) {
-      // 改成跳转到支付详情页，而不是二维码页面
       window.location.href = `/order/pay?orderId=${data.orderId}`;
-
     } else {
       alert("下单失败：" + data.message);
     }
   }
 
-
-
-  // 页面加载时先调用一次
   loadCart();
 </script>
-
 
 </body>
 </html>

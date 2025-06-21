@@ -1,56 +1,130 @@
-<!-- templates/admin/product_form.html -->
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8" />
   <title>商品表单</title>
+  <link rel="stylesheet" th:href="@{/css/header.css}" />
+
   <style>
-    body { font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px; }
-    form div { margin-bottom: 15px; }
-    label { font-weight: bold; display: block; margin-bottom: 5px; }
-    input[type="text"], input[type="number"] {
-      width: 300px;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    button {
-      padding: 10px 20px;
-      background-color: #18bc9c;
+    /* 统一按钮风格 */
+    .btn {
+      display: inline-block;
+      padding: 10px 25px;
+      background-color: #0a84ff;
       color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: 12px;
+      font-size: 16px;
       cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      user-select: none;
+      transition: background-color 0.2s ease;
     }
-    button:hover { background-color: #14927e; }
-    a { display: inline-block; margin-top: 20px; color: #3498db; text-decoration: none; }
+
+    .btn:hover {
+      background-color: #0060df;
+    }
+
+    /* 之前input样式保持不变 */
+    input[type="text"], input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #c7c7cc;
+      border-radius: 10px;
+      background-color: white;
+      font-size: 16px;
+    }
+
+    /* 去掉数字输入框的上下箭头 */
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    input[type=number] {
+      -moz-appearance: textfield;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background-color: #f2f2f7;
+      padding: 80px 30px 30px 30px;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      color: #1c1c1e;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    form div {
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 5px;
+      color: #3a3a3c;
+    }
+
+    .links {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    /* 让链接按钮垂直居中 */
+    .links a.btn {
+      display: inline-block;
+    }
+
   </style>
+
+
 </head>
 <body>
 
-<!-- 引入导航栏 -->
-<div th:replace="admin/admin_header :: header"></div>
+<!-- 顶部导航栏 -->
+<div th:replace="header :: header"></div>
 
-<h1 th:text="${product.id == null} ? '新增商品' : '编辑商品'"></h1>
+<!-- 主体内容容器 -->
+<div class="container">
+  <h1 th:text="${product.id == null} ? '新增商品' : '编辑商品'"></h1>
 
-<form th:action="@{/admin/product/save}" method="post">
-  <input type="hidden" name="id" th:value="${product.id}" />
-  <div>
-    <label>名称：</label>
-    <input type="text" name="name" th:value="${product.name}" required />
-  </div>
-  <div>
-    <label>价格：</label>
-    <input type="number" step="0.01" name="price" th:value="${product.price}" required />
-  </div>
-  <div>
-    <label>图片地址：</label>
-    <input type="text" name="imageUrl" th:value="${product.imageUrl}" />
-  </div>
-  <button type="submit">保存</button>
-</form>
+  <form th:action="@{/admin/product/save}" method="post">
+    <input type="hidden" name="id" th:value="${product.id}" />
+    <div>
+      <label>名称：</label>
+      <input type="text" name="name" th:value="${product.name}" required />
+    </div>
+    <div>
+      <label>价格：</label>
+      <input type="number" name="price" required />
+    </div>
+    <div>
+      <label>图片地址：</label>
+      <input type="text" name="imageUrl" th:value="${product.imageUrl}" />
+    </div>
+    <button type="submit" class="btn">💾 保存</button>
+  </form>
 
-<a href="/admin/products">返回列表</a>
+  <div class="links">
+    <a href="/admin/products" class="btn">🔙 返回商品列表</a>
+  </div>
+
+</div>
 
 </body>
 </html>

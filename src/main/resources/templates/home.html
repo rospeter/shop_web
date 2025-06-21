@@ -4,33 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>电商首页</title>
+
+<!--    顶部导航栏 （导入）-->
+    <link rel="stylesheet" th:href="@{/css/header.css}" />
     <style>
         /* 页面重置 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: Arial, sans-serif; background-color: #f5f5f5; }
-
-        /* 顶部导航栏 */
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #fff;
-            padding: 10px 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        .navbar .logo { font-size: 24px; font-weight: bold; color: #333; }
-        .navbar .search-bar input {
-            width: 300px;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        .navbar .user-info a, .navbar .cart a {
-            margin-left: 20px;
-            color: #333;
-            text-decoration: none;
-            font-size: 16px;
-        }
 
         /* 主横幅区域 */
         .banner {
@@ -116,42 +96,7 @@
 <body>
 
 <!-- 顶部导航栏 -->
-<div class="navbar">
-    <div class="logo">电商平台</div>
-    <div class="search-bar">
-        <input type="text" placeholder="搜索商品...">
-    </div>
-
-    <!-- 只改 user-info 部分，替换成下面这段 -->
-
-    <div class="user-info">
-        <!-- 未登录：显示 登录 注册 -->
-        <span th:if="${session.user == null}">
-        <a href="/login">登录</a>
-        <a href="/register">注册</a>
-    </span>
-
-        <!-- 已登录：显示 欢迎 + 用户中心 + 退出 -->
-        <span th:if="${session.user != null}">
-        欢迎，<span th:text="${session.user.username}">用户名</span>
-        <a href="/user/center" style="margin-left: 15px;">用户中心</a>
-        <a href="/logout" style="margin-left: 15px;">退出登录</a>
-
-            <!-- 只有管理员显示后台管理 -->
-        <a th:if="${session.user.role == 'ADMIN'}"
-           href="/admin/products"
-           style="color: #ffcc00; margin-left: 20px; font-weight: bold;">
-           后台管理
-        </a>
-    </span>
-    </div>
-
-
-
-    <div class="cart">
-        <a href="/cart">购物车</a>
-    </div>
-</div>
+<div th:replace="header :: header"></div>
 
 <!-- 主横幅区域 -->
 <div class="banner">

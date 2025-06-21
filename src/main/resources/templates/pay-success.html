@@ -1,37 +1,66 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>支付成功</title>
+  <link rel="stylesheet" th:href="@{/css/header.css}" />
+
   <style>
-    body { font-family: Arial; background: #f0fff0; text-align: center; padding: 50px; }
-    .box {
-      background: white;
-      display: inline-block;
-      padding: 40px;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background-color: #f2f2f7;
+      padding: 80px 30px 30px 30px; /* 顶部导航留白 */
+      margin: 0;
+      text-align: center;
     }
-    h1 { color: #28a745; }
-    p { font-size: 18px; margin: 10px 0; }
-    a {
+    .box {
+      background-color: #ffffff;
       display: inline-block;
-      margin-top: 20px;
-      padding: 10px 20px;
-      background-color: #007bff;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      max-width: 400px;
+      width: 100%;
+    }
+    h1 {
+      color: #0a84ff;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+    p {
+      font-size: 18px;
+      color: #3a3a3c;
+      margin: 10px 0;
+    }
+    a.btn {
+      display: inline-block;
+      margin-top: 25px;
+      padding: 10px 25px;
+      background-color: #0a84ff;
       color: white;
+      border-radius: 12px;
       text-decoration: none;
-      border-radius: 5px;
+      font-size: 16px;
+      user-select: none;
+      transition: background-color 0.2s ease;
+    }
+    a.btn:hover {
+      background-color: #0060df;
     }
   </style>
 </head>
 <body>
+
+<!-- 顶部导航栏 -->
+<div th:replace="header :: header"></div>
+
 <div class="box">
   <h1>支付成功！</h1>
-  <p>订单编号：[[${order.id}]]</p>
-  <p>支付金额：[[${order.totalPrice}]] 元</p>
-  <p>状态：[[${order.status}]]</p>
-  <a href="/user/orders">查看我的订单</a>
+  <p>订单编号：<span th:text="${order.id}">123456</span></p>
+  <p>支付金额：<span th:text="${order.totalPrice}">100.00</span> 元</p>
+  <p>状态：<span th:text="${order.status}">已支付</span></p>
+  <a href="/user/orders" class="btn">查看我的订单</a>
 </div>
+
 </body>
 </html>
