@@ -70,7 +70,11 @@
 <div th:replace="header :: header"></div>
 
 <div class="container">
-    <img class="product-image" th:src="${product.imageUrl}" th:alt="${product.name}" />
+    <img class="product-image"
+         th:src="${product.imageUrl}"
+         th:alt="${product.name}"
+         onerror="this.onerror=null;this.src='/images/placeholder.jpg';" />
+
     <div class="product-name" th:text="${product.name}">商品名称</div>
     <div class="product-price" th:text="'￥' + ${product.price}">￥123.00</div>
     <button class="add-cart-btn" th:onclick="'addToCart(' + '\'' + ${product.id} + '\'' + ')'">加入购物车</button>

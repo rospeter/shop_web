@@ -91,7 +91,13 @@
         <div class="products-list">
             <div class="product-card" th:each="product : ${products}">
                 <a th:href="@{'/product/' + ${product.id}}">
-                    <img th:src="${product.imageUrl != null ? product.imageUrl : '/images/banner.jpg'}" alt="商品图" class="product-image" />
+                    <img
+                            th:src="${product.imageUrl != null ? product.imageUrl : '/images/banner.jpg'}"
+                            alt="商品图"
+                            class="product-image"
+                            onerror="this.onerror=null; this.src='/images/placeholder.jpg';"
+                    />
+
                     <span class="product-name" th:text="${product.name}"></span>
                 </a>
                 <div class="product-price">￥<span th:text="${product.price}"></span></div>

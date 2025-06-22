@@ -73,6 +73,45 @@ public class OrderController {
         // 8. 返回结果
         return new Response(true, "订单创建成功", order.getId());
     }
+    // ===== 新增订单详情接口，用于根据订单ID查询订单信息 =====
+    @GetMapping("/detail")
+    public OrderDetailResponse getOrderDetail(@RequestParam Long orderId) {
+        Order order = orderRepository.findById(orderId).orElse(null);
+        if (order == null) {
+            throw new RuntimeException("订单不存在"); // 简单异常处理
+        }
+
+        // 查询订单项列表
+        List<OrderItem> items = orderItemRepository.findByOrderId(orderId);
+        order.setItems(items);  // 设置订单中的订单项（transient 字段）
+
+        return new OrderDetailResponse(order);
+    }
+
+    // 定义订单详情返回数据结构
+    public static class OrderDetailResponse {
+        private Long orderId;
+        private Double total;
+        private List<OrderItem> items;
+
+        public OrderDetailResponse(Order order) {
+            this.orderId = order.getId();
+            this.total = order.getTotalPrice();
+            this.items = order.getItems();
+        }
+
+        public Long getOrderId() {
+            return orderId;
+        }
+
+        public Double getTotal() {
+            return total;
+        }
+
+        public List<OrderItem> getItems() {
+            return items;
+        }
+    }
 
     // 简单响应类
     public static class Response {

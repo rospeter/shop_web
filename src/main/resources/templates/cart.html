@@ -1,126 +1,126 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8" />
-  <title>购物车</title>
-  <link rel="stylesheet" th:href="@{/css/header.css}" />
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f5f5f5;
-      padding-top: 80px;
-      margin: 0;
-    }
+    <meta charset="UTF-8"/>
+    <title>购物车</title>
+    <link rel="stylesheet" th:href="@{/css/header.css}"/>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            padding-top: 80px;
+            margin: 0;
+        }
 
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
 
-    .cart-wrapper {
-      background-color: #ffffff;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
+        .cart-wrapper {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
 
-    h2 {
-      text-align: center;
-      margin-bottom: 30px;
-    }
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
 
-    .top-bar {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 20px;
-    }
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
 
-    .top-bar button {
-      background-color: #3498db;
-      color: white;
-      padding: 8px 16px;
-      font-size: 16px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background-color 0.2s ease;
-    }
+        .top-bar button {
+            background-color: #3498db;
+            color: white;
+            padding: 8px 16px;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
 
-    .top-bar button:hover {
-      background-color: #2980b9;
-    }
+        .top-bar button:hover {
+            background-color: #2980b9;
+        }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background-color: #fff;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
 
-    th, td {
-      padding: 15px;
-      text-align: center;
-      border-bottom: 1px solid #ddd;
-    }
+        th, td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
 
-    th {
-      background-color: #f0f0f0;
-      font-size: 18px;
-    }
+        th {
+            background-color: #f0f0f0;
+            font-size: 18px;
+        }
 
-    img {
-      width: 80px;
-      height: 80px;
-      object-fit: cover;
-      border-radius: 6px;
-    }
+        img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
 
-    .remove-btn {
-      color: #e74c3c;
-      cursor: pointer;
-    }
+        .remove-btn {
+            color: #e74c3c;
+            cursor: pointer;
+        }
 
-    .total-price {
-      text-align: right;
-      font-size: 20px;
-      margin-top: 20px;
-      font-weight: bold;
-    }
+        .total-price {
+            text-align: right;
+            font-size: 20px;
+            margin-top: 20px;
+            font-weight: bold;
+        }
 
-    .empty {
-      text-align: center;
-      margin-top: 100px;
-      font-size: 24px;
-      color: #999;
-    }
+        .empty {
+            text-align: center;
+            margin-top: 100px;
+            font-size: 24px;
+            color: #999;
+        }
 
-    .quantity-control {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 6px;
-    }
+        .quantity-control {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+        }
 
-    .quantity-control button {
-      width: 30px;
-      height: 30px;
-      font-size: 18px;
-      border: 1px solid #ccc;
-      background-color: #f0f0f0;
-      cursor: pointer;
-      border-radius: 4px;
-    }
+        .quantity-control button {
+            width: 30px;
+            height: 30px;
+            font-size: 18px;
+            border: 1px solid #ccc;
+            background-color: #f0f0f0;
+            cursor: pointer;
+            border-radius: 4px;
+        }
 
-    .quantity-control input {
-      width: 50px;
-      text-align: center;
-      font-size: 16px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      font-family: monospace;
-    }
-  </style>
+        .quantity-control input {
+            width: 50px;
+            text-align: center;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+    </style>
 </head>
 <body>
 
@@ -128,38 +128,38 @@
 <div th:replace="header :: header"></div>
 
 <div class="container">
-  <div class="cart-wrapper">
-    <div class="top-bar">
-      <button onclick="clearCart()">🗑 清空购物车</button>
+    <div class="cart-wrapper">
+        <div class="top-bar">
+            <button onclick="clearCart()">🗑 清空购物车</button>
+        </div>
+
+        <h2>🛒 我的购物车</h2>
+
+        <div id="cart-container"></div>
     </div>
-
-    <h2>🛒 我的购物车</h2>
-
-    <div id="cart-container"></div>
-  </div>
 </div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    loadCart();
-  });
+    document.addEventListener("DOMContentLoaded", () => {
+        loadCart();
+    });
 
-  async function loadCart() {
-    const res = await fetch("/api/cart/list");
-    if (res.status === 401) {
-      alert("请先登录！");
-      window.location.href = "/login";
-      return;
-    }
-    const data = await res.json();
-    const container = document.getElementById("cart-container");
+    async function loadCart() {
+        const res = await fetch("/api/cart/list");
+        if (res.status === 401) {
+            alert("请先登录！");
+            window.location.href = "/login";
+            return;
+        }
+        const data = await res.json();
+        const container = document.getElementById("cart-container");
 
-    if (data.length === 0) {
-      container.innerHTML = `<div class="empty">购物车为空~</div>`;
-      return;
-    }
+        if (data.length === 0) {
+            container.innerHTML = `<div class="empty">购物车为空~</div>`;
+            return;
+        }
 
-    let html = `
+        let html = `
       <table>
         <thead>
           <tr>
@@ -173,11 +173,17 @@
         </thead>
         <tbody>`;
 
-    data.forEach(item => {
-      const subTotal = item.price * item.quantity;
-      html += `
+        data.forEach(item => {
+            const subTotal = item.price * item.quantity;
+            html += `
         <tr data-id="${item.productId}">
-          <td><img src="${item.imageUrl || 'https://via.placeholder.com/80'}" alt="商品图"></td>
+          <td><img
+  src="${item.imageUrl || '/images/placeholder.jpg'}"
+  alt="商品图"
+  onerror="this.onerror=null;this.src='/images/placeholder.jpg';"
+  width="80" height="80"
+/>
+</td>
           <td>${item.name}</td>
           <td class="price">￥${item.price.toFixed(2)}</td>
           <td>
@@ -190,9 +196,9 @@
           <td class="subtotal">￥${subTotal.toFixed(2)}</td>
           <td><span class="remove-btn" onclick="removeItem(${item.productId})">删除</span></td>
         </tr>`;
-    });
+        });
 
-    html += `
+        html += `
         </tbody>
       </table>
       <div class="total-price" id="total-price"></div>
@@ -209,108 +215,108 @@
         ">去支付</button>
       </div>`;
 
-    container.innerHTML = html;
-    recalculateTotal();
-  }
-
-  async function changeQuantity(productId, delta) {
-    const row = document.querySelector(`tr[data-id="${productId}"]`);
-    const input = row.querySelector("input");
-    let quantity = parseInt(input.value);
-    if (isNaN(quantity)) quantity = 1;
-    quantity = Math.max(1, quantity + delta);
-    input.value = quantity;
-    await updateQuantity(productId, quantity, row);
-  }
-
-  async function manualInput(inputElem, productId) {
-    let quantity = parseInt(inputElem.value);
-    if (isNaN(quantity) || quantity < 1) quantity = 1;
-    inputElem.value = quantity;
-    const row = inputElem.closest("tr");
-    await updateQuantity(productId, quantity, row);
-  }
-
-  async function updateQuantity(productId, quantity, row) {
-    const priceText = row.querySelector(".price").innerText.replace("￥", "");
-    const subtotalCell = row.querySelector(".subtotal");
-
-    const formData = new URLSearchParams();
-    formData.append("productId", productId);
-    formData.append("quantity", quantity);
-
-    const res = await fetch(`/api/cart/update`, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: formData
-    });
-
-    if (res.status === 401) {
-      alert("请先登录！");
-      window.location.href = "/login";
-      return;
+        container.innerHTML = html;
+        recalculateTotal();
     }
 
-    const price = parseFloat(priceText);
-    subtotalCell.innerText = "￥" + (price * quantity).toFixed(2);
-    recalculateTotal();
-  }
-
-  function recalculateTotal() {
-    let total = 0;
-    document.querySelectorAll(".subtotal").forEach(cell => {
-      total += parseFloat(cell.innerText.replace("￥", ""));
-    });
-    document.getElementById("total-price").innerText = "总价：￥" + total.toFixed(2);
-  }
-
-  async function removeItem(productId) {
-    const formData = new URLSearchParams();
-    formData.append("productId", productId);
-
-    const res = await fetch(`/api/cart/remove`, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: formData
-    });
-
-    if (res.status === 401) {
-      alert("请先登录！");
-      window.location.href = "/login";
-      return;
+    async function changeQuantity(productId, delta) {
+        const row = document.querySelector(`tr[data-id="${productId}"]`);
+        const input = row.querySelector("input");
+        let quantity = parseInt(input.value);
+        if (isNaN(quantity)) quantity = 1;
+        quantity = Math.max(1, quantity + delta);
+        input.value = quantity;
+        await updateQuantity(productId, quantity, row);
     }
 
-    loadCart();
-  }
-
-  async function clearCart() {
-    const res = await fetch(`/api/cart/clear`, { method: "POST" });
-
-    if (res.status === 401) {
-      alert("请先登录！");
-      window.location.href = "/login";
-      return;
+    async function manualInput(inputElem, productId) {
+        let quantity = parseInt(inputElem.value);
+        if (isNaN(quantity) || quantity < 1) quantity = 1;
+        inputElem.value = quantity;
+        const row = inputElem.closest("tr");
+        await updateQuantity(productId, quantity, row);
     }
 
-    loadCart();
-  }
+    async function updateQuantity(productId, quantity, row) {
+        const priceText = row.querySelector(".price").innerText.replace("￥", "");
+        const subtotalCell = row.querySelector(".subtotal");
 
-  async function placeOrder() {
-    const res = await fetch('/api/order/create', { method: 'POST' });
+        const formData = new URLSearchParams();
+        formData.append("productId", productId);
+        formData.append("quantity", quantity);
 
-    if (res.status === 401) {
-      alert("请先登录！");
-      window.location.href = "/login";
-      return;
+        const res = await fetch(`/api/cart/update`, {
+            method: "POST",
+            headers: {"Content-Type": "application/x-www-form-urlencoded"},
+            body: formData
+        });
+
+        if (res.status === 401) {
+            alert("请先登录！");
+            window.location.href = "/login";
+            return;
+        }
+
+        const price = parseFloat(priceText);
+        subtotalCell.innerText = "￥" + (price * quantity).toFixed(2);
+        recalculateTotal();
     }
 
-    const data = await res.json();
-    if (data.success) {
-      window.location.href = `/order/pay?orderId=${data.orderId}`;
-    } else {
-      alert("下单失败：" + data.message);
+    function recalculateTotal() {
+        let total = 0;
+        document.querySelectorAll(".subtotal").forEach(cell => {
+            total += parseFloat(cell.innerText.replace("￥", ""));
+        });
+        document.getElementById("total-price").innerText = "总价：￥" + total.toFixed(2);
     }
-  }
+
+    async function removeItem(productId) {
+        const formData = new URLSearchParams();
+        formData.append("productId", productId);
+
+        const res = await fetch(`/api/cart/remove`, {
+            method: "POST",
+            headers: {"Content-Type": "application/x-www-form-urlencoded"},
+            body: formData
+        });
+
+        if (res.status === 401) {
+            alert("请先登录！");
+            window.location.href = "/login";
+            return;
+        }
+
+        loadCart();
+    }
+
+    async function clearCart() {
+        const res = await fetch(`/api/cart/clear`, {method: "POST"});
+
+        if (res.status === 401) {
+            alert("请先登录！");
+            window.location.href = "/login";
+            return;
+        }
+
+        loadCart();
+    }
+
+    async function placeOrder() {
+        const res = await fetch('/api/order/create', {method: 'POST'});
+
+        if (res.status === 401) {
+            alert("请先登录！");
+            window.location.href = "/login";
+            return;
+        }
+
+        const data = await res.json();
+        if (data.success) {
+            window.location.href = `/order/pay?orderId=${data.orderId}`;
+        } else {
+            alert("下单失败：" + data.message);
+        }
+    }
 </script>
 
 </body>

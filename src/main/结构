@@ -1,50 +1,66 @@
 lemall
 ├─java
-│  └─com.example.lemall
-│      ├─config
-│      │    └─DataInitializer.java              # 初始化配置
-│      ├─controller
-│      │    ├─AdminProductController.java       # 后台商品管理控制器
-│      │    ├─CartApiController.java             # 购物车API接口
-│      │    ├─CartController.java                # 购物车页面控制器
-│      │    ├─HomeController.java                # 首页控制器
-│      │    ├─LoginController.java               # 登录控制器
-│      │    ├─OrderController.java               # 订单相关API接口
-│      │    ├─OrderPageController.java           # 订单页面控制器
-│      │    ├─ProductApiController.java          # 商品API接口
-│      │    ├─ProductController.java             # 商品页面控制器
-│      │    ├─RegisterController.java            # 注册控制器
-│      │    ├─UserApiController.java             # 用户API接口
-│      │    └─UserPageController.java            # 用户页面控制器
-│      ├─entity
-│      │    ├─CartItem.java                       # 购物车实体
-│      │    ├─Order.java                          # 订单实体
-│      │    ├─OrderItem.java                      # 订单项实体
-│      │    ├─Product.java                        # 商品实体
-│      │    └─User.java                           # 用户实体
-│      └─repository
-│           ├─OrderItemRepository.java           # 订单项数据库接口
-│           ├─OrderRepository.java               # 订单数据库接口
-│           ├─ProductRepository.java             # 商品数据库接口
-│           └─UserRepository.java                # 用户数据库接口
+│  └─com
+│      └─example
+│          └─lemall
+│              │  LemallApplication.java           # 项目启动主类，Spring Boot入口
+│              │
+│              ├─config
+│              │      DataInitializer.java         # 数据初始化配置，启动时加载测试或默认数据
+│              │
+│              ├─controller
+│              │      AdminProductController.java  # 管理后台商品管理控制器，处理商品增删改查
+│              │      CartApiController.java       # 购物车相关REST API接口，添加、修改、删除商品
+│              │      CartController.java          # 购物车页面控制器，展示购物车页面
+│              │      HomeController.java          # 首页控制器，负责首页请求和数据展示
+│              │      LoginController.java         # 用户登录控制器，处理登录页面及登录逻辑
+│              │      OrderController.java         # 订单相关REST API接口，订单创建及管理
+│              │      OrderPageController.java     # 订单页面控制器，负责支付页面及订单展示页面
+│              │      ProductApiController.java    # 商品相关REST API接口，商品数据获取
+│              │      ProductController.java       # 商品页面控制器，处理商品详情页展示
+│              │      RegisterController.java      # 用户注册控制器，注册页面及逻辑处理
+│              │      UserApiController.java       # 用户相关REST API接口，用户信息操作
+│              │      UserPageController.java      # 用户页面控制器，用户中心、订单列表等页面
+│              │
+│              ├─entity
+│              │      CartItem.java                # 购物车商品实体，封装购物车商品信息（非数据库实体）
+│              │      Order.java                   # 订单实体，映射orders数据库表
+│              │      OrderItem.java               # 订单项实体，映射order_items数据库表
+│              │      Product.java                 # 商品实体，映射product数据库表
+│              │      User.java                    # 用户实体，映射users数据库表
+│              │
+│              └─repository
+│                      OrderItemRepository.java    # 订单项数据访问接口，数据库操作
+│                      OrderRepository.java        # 订单数据访问接口，数据库操作
+│                      ProductRepository.java      # 商品数据访问接口，数据库操作
+│                      UserRepository.java         # 用户数据访问接口，数据库操作
 │
 └─resources
-    ├─application.properties                      # 配置文件
-    ├─static                                      # 静态资源（CSS、JS、图片）
-    └─templates                                   # Thymeleaf模板页面
-        ├─cart.html                              # 购物车页面
-        ├─header.html                            # 公共头部
-        ├─home.html                              # 首页
-        ├─login.html                             # 登录页
-        ├─pay-code.html                          # 支付二维码页
-        ├─pay-success.html                       # 支付成功页
-        ├─pay.html                               # 支付详情页
-        ├─product.html                           # 商品页
-        ├─product_detail.html                    # 商品详情页
-        ├─register.html                          # 注册页
-        ├─user-center.html                       # 用户中心页
-        ├─user-orders.html                       # 用户订单列表页
-        └─admin                                  # 管理后台页面
-            ├─admin_header.html
-            ├─product_form.html
-            └─product_list.html
+    │  application.properties                      # Spring Boot配置文件，数据库及系统配置
+    │
+    ├─static                                      # 静态资源文件夹（CSS、JS、图片等）
+    │  ├─css
+    │  │      header.css                           # 顶部导航栏样式文件
+    │  │
+    │  └─images
+    │          banner.jpg                          # 首页轮播图
+    │          placeholder.jpg                     # 通用占位图，用于无图片时显示
+    │
+    └─templates                                   # Thymeleaf模板文件夹，前端页面模板
+        │  cart.html                              # 购物车页面
+        │  header.html                            # 公共头部导航模板
+        │  home.html                              # 首页模板
+        │  login.html                             # 登录页模板
+        │  pay-code.html                          # 支付二维码页模板
+        │  pay-success.html                       # 支付成功页模板
+        │  pay.html                               # 支付详情页模板
+        │  product_detail.html                    # 商品详情页模板
+        │  product_search_list.html               # 商品搜索结果页模板
+        │  register.html                          # 注册页模板
+        │  user-center.html                       # 用户中心页模板
+        │  user-orders.html                       # 用户订单列表页模板
+        │
+        └─admin                                  # 管理后台页面文件夹
+                admin_header.html                 # 管理后台顶部导航模板
+                product_form.html                 # 商品新增/编辑表单模板
+                product_list.html                 # 商品列表模板
