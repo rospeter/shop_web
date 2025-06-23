@@ -1,3 +1,9 @@
+@REM window特供批处理脚本文件
+@REM ✅ 自动下载 Maven（如果你电脑没装）
+@REM ✅ 自动使用你项目中配置好的 Maven 版本
+@REM ✅ 模拟执行 mvn 命令，不需要你手动安装 Maven！
+
+
 <# : batch portion
 @REM ----------------------------------------------------------------------------
 @REM Licensed to the Apache Software Foundation (ASF) under one

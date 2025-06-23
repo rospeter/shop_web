@@ -1,86 +1,125 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--        这是所有标准 POM 文件的开头模板，几乎不变。-->
+<!--        这是默认命名空间声明。-->
+<!--        我打算用 XML Schema 来验证这个 XML 文件是不是写得对。-->
+<!--        如果你要验证这个 XML 有没有写错，就按照这个网址里的 POM 结构定义文件 来验证-->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.4.7</version>
-		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
-	<groupId>com.example</groupId>
-	<artifactId>lemall</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>lemall</name>
-	<description>Demo project for Spring Boot</description>
-	<properties>
-		<java.version>17</java.version>
-	</properties>
-	<dependencies>
-		<dependency>
-			<groupId>jakarta.servlet</groupId>
-			<artifactId>jakarta.servlet-api</artifactId>
-			<version>6.0.0</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.mysql</groupId>
-			<artifactId>mysql-connector-j</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>1.18.32</version> <!-- ✅最新版，兼容 JDK 21 -->
-			<scope>provided</scope>
-		</dependency>
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-		<!-- Thymeleaf 模板引擎 -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-		</dependency>
 
-		<!-- 测试用依赖 -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
+<!--    固定写 4.0.0（Maven 的模型版本）-->
+    <modelVersion>4.0.0</modelVersion>
+<!--    使用 Spring Boot 官方的配置作为“父配置”-->
+    <parent>
+<!--        指定你用的是 Spring Boot 3.4.7 的配置模板-->
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.4.7</version>
+<!--        从中央仓库拉 Spring Boot，而不是本地找-->
+        <relativePath/>
+    </parent>
 
-	</dependencies>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.11.0</version>
-				<configuration>
-					<source>21</source>
-					<target>21</target>
-					<annotationProcessorPaths>
-						<path>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-							<version>1.18.32</version> <!-- ✅保持一致 -->
-						</path>
-					</annotationProcessorPaths>
 
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
+
+<!--    你公司/组织/团队的名字，一般写 com.xxx-->
+    <groupId>com.example</groupId>
+<!--    你项目的名字，构建后的 jar 包名就叫它-->
+    <artifactId>lemall</artifactId>
+<!--    这个项目的版本号，比如 0.0.1 开发中-->
+    <version>0.0.1-SNAPSHOT</version>
+<!--    项目展示名，给人看的-->
+    <name>lemall</name>
+<!--    项目说明，写你这个项目干嘛的-->
+    <description>Demo project for Spring Boot</description>
+
+<!--    设置项目使用 Java 17 编译；-->
+    <properties>
+        <java.version>17</java.version>
+    </properties>
+
+<!--    dependencies：依赖清单 = 你需要“买”的库-->
+    <dependencies>
+
+<!--    Servlet API（6.0）让你写 Web 项目可以用 @WebServlet、HttpServletRequest等。-->
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>6.0.0</version>
+<!--            provided 表示：部署时服务器会提供，不用打进 jar 包。-->
+            <scope>provided</scope>
+        </dependency>
+
+<!--        pring Boot Web 开发；让你快速构建 Web 项目，自动添加 Tomcat + JSON 转换 + 注解控制器。-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+<!--        Spring JPA（数据库访问）JPA：Java 的 ORM 框架，可以用对象操作数据库，省得写 SQL。-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+<!--        MySQL 驱动 连接 MySQL 数据库的桥梁；-->
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+<!--            runtime：运行时需要，编译时不参与。-->
+            <scope>runtime</scope>
+        </dependency>
+
+<!--        Lombok（简化代码） 自动帮你生成 getter/setter、构造函数，代码变干净；-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.32</version> <!-- ✅最新版，兼容 JDK 21 -->
+<!--        provided：运行时不需要它参与（编译器用了它，程序跑起来不需要它）。-->
+            <scope>provided</scope>
+        </dependency>
+
+<!--Thymeleaf 模板引擎 写 HTML 页面的模板系统，结合 ${} 变量输出；-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+        <!-- 测试用依赖 测试用的 Spring Boot 工具-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+    <build>
+        <plugins>
+<!--            编译插件：设定 Java 编译版本和注解处理-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <source>21</source>
+                    <target>21</target>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.32</version> <!-- ✅保持一致 -->
+                        </path>
+                    </annotationProcessorPaths>
+
+                </configuration>
+            </plugin>
+
+<!--            启动插件：打包并支持 java -jar 运行-->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+        </plugins>
+    </build>
 </project>
