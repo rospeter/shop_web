@@ -2,7 +2,7 @@ package com.example.lemall.entity;
 
 import lombok.Data;
 import jakarta.persistence.*;
-
+//自动生成 getXxx() / setXxx() / toString() / equals() / hashCode()
 @Data
 @Entity
 @Table(name = "users")

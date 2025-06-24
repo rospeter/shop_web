@@ -17,7 +17,7 @@ lemall
 │              │      OrderController.java         # 订单相关REST API接口，订单创建及管理
 │              │      OrderPageController.java     # 订单页面控制器，负责支付页面及订单展示页面
 │              │      ProductApiController.java    # 商品相关REST API接口，商品数据获取
-│              │      ProductController.java       # 商品页面控制器，处理商品详情页展示
+│              │      ProductController.java       # 商品页面控制器，处理商品详情页展示，商品搜索页展示
 │              │      RegisterController.java      # 用户注册控制器，注册页面及逻辑处理
 │              │      UserApiController.java       # 用户相关REST API接口，用户信息操作
 │              │      UserPageController.java      # 用户页面控制器，用户中心、订单列表等页面
